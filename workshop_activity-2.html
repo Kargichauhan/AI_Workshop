@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workshop Activity Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2D3748;
+            --accent: #4299E1;
+            --accent-bright: #63B3ED;
+            --bg: #F7FAFC;
+            --surface: #FFFFFF;
+            --text: #1A202C;
+            --text-light: #4A5568;
+            --border: #E2E8F0;
+            --success: #48BB78;
+            --warning: #ED8936;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .participant-info {
+            background: var(--bg);
+            padding: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .section {
+            padding: 2.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
+        .section:nth-child(6) { animation-delay: 0.5s; }
+        .section:nth-child(7) { animation-delay: 0.6s; }
+        .section:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .rating-group {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .rating-scale {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .rating-option {
+            position: relative;
+        }
+
+        .rating-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .rating-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            color: var(--text-light);
+            background: white;
+            margin: 0;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+            color: white;
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .rating-option label:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: #EDF2F7;
+            transform: translateX(4px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .code-block {
+            background: #2D3748;
+            color: #E2E8F0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .tips-box strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%);
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box strong {
+            color: var(--success);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #EBF8FF 0%, #BEE3F8 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .prompt-example {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .prompt-example strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .rating-scale {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Workshop Activity Guide</h1>
+            <p class="subtitle">Building Your Dev Team's AI Assistant</p>
+        </header>
+
+        <section class="participant-info">
+            <div class="info-grid">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="your.email@example.com">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: AI Fundamentals Quiz -->
+        <section class="section">
+            <h2><span class="section-number">1</span> AI Fundamentals Check-In</h2>
+            <p class="description">Let's establish your baseline understanding of AI concepts</p>
+
+            <div class="rating-group">
+                <span class="rating-label">How well do you understand what a "token" is in AI?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="token-1" name="token" value="1">
+                        <label for="token-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="token-2" name="token" value="2">
+                        <label for="token-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="token-3" name="token" value="3">
+                        <label for="token-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="token-4" name="token" value="4">
+                        <label for="token-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="token-5" name="token" value="5">
+                        <label for="token-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>No idea</span>
+                    <span>Expert level</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">How comfortable are you with "context windows"?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="context-1" name="context" value="1">
+                        <label for="context-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="context-2" name="context" value="2">
+                        <label for="context-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="context-3" name="context" value="3">
+                        <label for="context-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="context-4" name="context" value="4">
+                        <label for="context-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="context-5" name="context" value="5">
+                        <label for="context-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>What's that?</span>
+                    <span>I get it!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>After the fundamentals session, write down ONE concept you learned:</label>
+                <textarea id="fundamentals-learned" placeholder="Example: 'Tokens are pieces of text that AI models process, roughly 3-4 characters each...'"></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2: Prompt Engineering Practice -->
+        <section class="section">
+            <h2><span class="section-number">2</span> Prompt Engineering Playground</h2>
+            <p class="description">Practice crafting effective prompts for common dev tasks</p>
+
+            <div class="tips-box">
+                <strong>💡 Prompt Tips:</strong>
+                Be specific • Provide context • Use examples • Ask for step-by-step reasoning • Request validation
+            </div>
+
+            <div class="form-group">
+                <label>Challenge 1: Write a prompt to debug a "NullPointerException"</label>
+                <div class="prompt-example">
+                    <strong>Your Prompt:</strong>
+                </div>
+                <textarea id="prompt-debug" placeholder="Craft your debugging prompt here..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Challenge 2: Write a prompt to generate documentation for a complex function</label>
+                <textarea id="prompt-docs" placeholder="Craft your documentation prompt here..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Challenge 3: Write a prompt to research best practices for API authentication</label>
+                <textarea id="prompt-research" placeholder="Craft your research prompt here..."></textarea>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Rate: How much did prompt quality affect AI output?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="prompt-quality-1" name="prompt-quality" value="1">
+                        <label for="prompt-quality-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="prompt-quality-2" name="prompt-quality" value="2">
+                        <label for="prompt-quality-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="prompt-quality-3" name="prompt-quality" value="3">
+                        <label for="prompt-quality-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="prompt-quality-4" name="prompt-quality" value="4">
+                        <label for="prompt-quality-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="prompt-quality-5" name="prompt-quality" value="5">
+                        <label for="prompt-quality-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Not much</span>
+                    <span>Huge difference!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Best prompt pattern you discovered today:</label>
+                <textarea id="best-pattern" placeholder="Share the most effective technique you learned..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 3: Model Olympics (NEW) -->
+        <section class="section">
+            <h2><span class="section-number">3</span> Model Olympics: Claude vs GPT</h2>
+            <p class="description">Quick comparison: How do different AI models handle the same task?</p>
+
+            <div class="info-box">
+                <strong>🏆 Challenge:</strong>
+                We'll give the same coding task to Claude and GPT. You decide which output is better.
+            </div>
+
+            <div class="form-group">
+                <label>Task: [Instructor will provide a coding challenge]</label>
+                <textarea id="olympics-task" placeholder="Notes on the task..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Which model gave better results? Why?</label>
+                <textarea id="olympics-winner" placeholder="Compare: accuracy, code quality, explanation clarity, speed..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What did you learn about choosing the right AI tool?</label>
+                <textarea id="olympics-learning" placeholder="When would you use one model over another?"></textarea>
+            </div>
+        </section>
+
+        <!-- Section 4: Custom AI Agent Design -->
+        <section class="section">
+            <h2><span class="section-number">4</span> Build Your Documentation Agent</h2>
+            <p class="description">Design a private AI agent for your internal documentation</p>
+
+            <div class="success-box">
+                <strong>✅ Goal:</strong>
+                Create an AI that reads internal docs, answers questions with citations, and keeps data private
+            </div>
+
+            <div class="form-group">
+                <label>What internal documentation would be most valuable to query?</label>
+                <textarea id="agent-docs" placeholder="Example: API standards, security guidelines, deployment procedures..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What's ONE question you'd ask your documentation agent right now?</label>
+                <textarea id="agent-question" placeholder="Be specific! Example: 'What's our team's standard way to handle authentication tokens in microservices?'"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+                <label style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">What features does your agent need? (Check all that apply)</label>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-1">
+                    <label for="feature-1">Search across multiple docs simultaneously</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-2">
+                    <label for="feature-2">Cite specific sections (with page numbers/links)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-3">
+                    <label for="feature-3">Compare different approaches in our docs</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-4">
+                    <label for="feature-4">Flag when information is outdated</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-5">
+                    <label for="feature-5">Suggest related documentation</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-6">
+                    <label for="feature-6">Integrate with our codebase (read code comments)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="feature-7">
+                    <label for="feature-7">Research external best practices and compare with our standards</label>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">How confident are you now about building a simple agent?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="agent-confidence-1" name="agent-confidence" value="1">
+                        <label for="agent-confidence-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="agent-confidence-2" name="agent-confidence" value="2">
+                        <label for="agent-confidence-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="agent-confidence-3" name="agent-confidence" value="3">
+                        <label for="agent-confidence-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="agent-confidence-4" name="agent-confidence" value="4">
+                        <label for="agent-confidence-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="agent-confidence-5" name="agent-confidence" value="5">
+                        <label for="agent-confidence-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Still confused</span>
+                    <span>Ready to build!</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: AI-Powered Research & Information Gathering -->
+        <section class="section">
+            <h2><span class="section-number">5</span> AI for Research & Information Gathering</h2>
+            <p class="description">How to use AI to efficiently research technical topics and gather information</p>
+
+            <div class="info-box">
+                <strong>📚 Research Use Cases:</strong>
+                Learning new frameworks • Comparing architectural approaches • Understanding error messages • Finding best practices • Staying current with tech trends
+            </div>
+
+            <div class="form-group">
+                <label>Practice: Ask AI to research a technical topic you're currently curious about</label>
+                <textarea id="research-topic" placeholder="What topic are you researching? How did AI help?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>How do you validate AI research results to ensure accuracy?</label>
+                <textarea id="research-validation" placeholder="What techniques do you use? Cross-reference sources? Check official docs? Test the suggestions?"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+                <label style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">What research tasks would you use AI for? (Check all that apply)</label>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-1">
+                    <label for="research-1">Compare different libraries/frameworks</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-2">
+                    <label for="research-2">Understand complex error messages</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-3">
+                    <label for="research-3">Learn best practices for new technologies</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-4">
+                    <label for="research-4">Summarize long technical documentation</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-5">
+                    <label for="research-5">Find solutions to uncommon problems</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="research-6">
+                    <label for="research-6">Stay updated on industry trends</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: AI Safety & Validation -->
+        <section class="section">
+            <h2><span class="section-number">6</span> Safety & Validation Strategies</h2>
+            <p class="description">How to catch AI mistakes before they cause problems</p>
+
+            <div class="tips-box">
+                <strong>⚠️ Critical Rule:</strong>
+                Never deploy AI-generated code to production without human review and testing
+            </div>
+
+            <div class="checkbox-group">
+                <label style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">Which validation techniques will you use? (Check your commitments)</label>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-1">
+                    <label for="validate-1">Always ask AI for citations/sources</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-2">
+                    <label for="validate-2">Run all AI-generated code through linters</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-3">
+                    <label for="validate-3">Write unit tests for AI-generated functions</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-4">
+                    <label for="validate-4">Security scan any code touching authentication/data</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-5">
+                    <label for="validate-5">Cross-check critical facts with multiple sources</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-6">
+                    <label for="validate-6">Have a human review before merging PRs</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="validate-7">
+                    <label for="validate-7">Test AI research against official documentation</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Share ONE example where AI gave you wrong information (if any):</label>
+                <textarea id="hallucination-example" placeholder="What happened? How did you catch it?"></textarea>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">How concerned are you about AI hallucinations NOW (after safety discussion)?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="concern-1" name="concern" value="1">
+                        <label for="concern-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="concern-2" name="concern" value="2">
+                        <label for="concern-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="concern-3" name="concern" value="3">
+                        <label for="concern-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="concern-4" name="concern" value="4">
+                        <label for="concern-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="concern-5" name="concern" value="5">
+                        <label for="concern-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Not worried</span>
+                    <span>Very concerned</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Use Case Prioritization -->
+        <section class="section">
+            <h2><span class="section-number">7</span> Prioritize Your AI Use Cases</h2>
+            <p class="description">Rate each use case: How likely will you use AI for this?</p>
+
+            <div class="rating-group">
+                <span class="rating-label">Debugging & Error Analysis</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="debug-1" name="debug" value="1">
+                        <label for="debug-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="debug-2" name="debug" value="2">
+                        <label for="debug-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="debug-3" name="debug" value="3">
+                        <label for="debug-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="debug-4" name="debug" value="4">
+                        <label for="debug-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="debug-5" name="debug" value="5">
+                        <label for="debug-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Writing Documentation</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="docs-1" name="docs" value="1">
+                        <label for="docs-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="docs-2" name="docs" value="2">
+                        <label for="docs-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="docs-3" name="docs" value="3">
+                        <label for="docs-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="docs-4" name="docs" value="4">
+                        <label for="docs-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="docs-5" name="docs" value="5">
+                        <label for="docs-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Research & Information Gathering</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="research-rate-1" name="research-rate" value="1">
+                        <label for="research-rate-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="research-rate-2" name="research-rate" value="2">
+                        <label for="research-rate-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="research-rate-3" name="research-rate" value="3">
+                        <label for="research-rate-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="research-rate-4" name="research-rate" value="4">
+                        <label for="research-rate-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="research-rate-5" name="research-rate" value="5">
+                        <label for="research-rate-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Writing/Refactoring Code</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="code-1" name="code" value="1">
+                        <label for="code-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="code-2" name="code" value="2">
+                        <label for="code-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="code-3" name="code" value="3">
+                        <label for="code-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="code-4" name="code" value="4">
+                        <label for="code-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="code-5" name="code" value="5">
+                        <label for="code-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Learning New Languages/Frameworks</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="learn-1" name="learn" value="1">
+                        <label for="learn-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="learn-2" name="learn" value="2">
+                        <label for="learn-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="learn-3" name="learn" value="3">
+                        <label for="learn-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="learn-4" name="learn" value="4">
+                        <label for="learn-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="learn-5" name="learn" value="5">
+                        <label for="learn-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Code Reviews</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="review-1" name="review" value="1">
+                        <label for="review-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="review-2" name="review" value="2">
+                        <label for="review-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="review-3" name="review" value="3">
+                        <label for="review-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="review-4" name="review" value="4">
+                        <label for="review-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="review-5" name="review" value="5">
+                        <label for="review-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Won't use</span>
+                    <span>Use daily</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 AI IDE Tools:</strong>
+                Consider exploring AI-powered IDEs like Cursor, Windsurf, or GitHub Copilot that integrate AI directly into your development workflow!
+            </div>
+        </section>
+
+        <!-- Section 8: Action Plan -->
+        <section class="section">
+            <h2><span class="section-number">8</span> Your Personal AI Action Plan</h2>
+            <p class="description">Concrete steps you'll take after this workshop</p>
+
+            <div class="form-group">
+                <label>ONE thing you'll try THIS WEEK using AI:</label>
+                <textarea id="action-week" placeholder="Be specific! Example: 'Use AI to review my PR for the authentication module before submitting'"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>ONE tool/technique you want to learn more about:</label>
+                <textarea id="action-learn" placeholder="Example: 'RAG (Retrieval Augmented Generation) for querying our internal docs' or 'Try Windsurf IDE for development'"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What would make you MORE confident using AI at work?</label>
+                <textarea id="action-confidence" placeholder="Example: 'Having validation checklist, seeing more examples from our codebase, practice sessions'"></textarea>
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Commit:</strong>
+                I will use AI responsibly by always validating outputs, especially for security-critical code
+            </div>
+
+            <div class="checkbox-group">
+                <label style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">I commit to: (Check all you'll do)</label>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="commit-1">
+                    <label for="commit-1">Testing AI suggestions before using them</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="commit-2">
+                    <label for="commit-2">Never deploying unreviewed AI code to production</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="commit-3">
+                    <label for="commit-3">Sharing what I learn with my team</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="commit-4">
+                    <label for="commit-4">Keeping data privacy in mind (using secure environment)</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: Workshop Feedback -->
+        <section class="section">
+            <h2><span class="section-number">9</span> Workshop Feedback</h2>
+            <p class="description">Help us improve future sessions</p>
+
+            <div class="rating-group">
+                <span class="rating-label">Overall workshop quality</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="overall-1" name="overall" value="1">
+                        <label for="overall-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="overall-2" name="overall" value="2">
+                        <label for="overall-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="overall-3" name="overall" value="3">
+                        <label for="overall-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="overall-4" name="overall" value="4">
+                        <label for="overall-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="overall-5" name="overall" value="5">
+                        <label for="overall-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Not helpful</span>
+                    <span>Extremely valuable</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Pace of the workshop</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="pace-1" name="pace" value="1">
+                        <label for="pace-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="pace-2" name="pace" value="2">
+                        <label for="pace-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="pace-3" name="pace" value="3">
+                        <label for="pace-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="pace-4" name="pace" value="4">
+                        <label for="pace-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="pace-5" name="pace" value="5">
+                        <label for="pace-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Too slow</span>
+                    <span>Too fast</span>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <span class="rating-label">Did the workshop match your skill level?</span>
+                <div class="rating-scale">
+                    <div class="rating-option">
+                        <input type="radio" id="skill-match-1" name="skill-match" value="1">
+                        <label for="skill-match-1">1</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="skill-match-2" name="skill-match" value="2">
+                        <label for="skill-match-2">2</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="skill-match-3" name="skill-match" value="3">
+                        <label for="skill-match-3">3</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="skill-match-4" name="skill-match" value="4">
+                        <label for="skill-match-4">4</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="skill-match-5" name="skill-match" value="5">
+                        <label for="skill-match-5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>Too basic</span>
+                    <span>Too advanced</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>What was the MOST valuable part of today's workshop?</label>
+                <textarea id="feedback-most-valuable" placeholder="What will you remember and use?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What should we add or change for future workshops?</label>
+                <textarea id="feedback-changes" placeholder="Your suggestions..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Any other thoughts or questions?</label>
+                <textarea id="feedback-other" placeholder="Open feedback..."></textarea>
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Thank you for participating!</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-save functionality (saves to localStorage)
+        const formElements = document.querySelectorAll('input, textarea');
+        
+        // Load saved data on page load
+        window.addEventListener('load', () => {
+            formElements.forEach(element => {
+                const savedValue = localStorage.getItem(element.id || element.name);
+                if (savedValue) {
+                    if (element.type === 'radio') {
+                        if (element.value === savedValue) {
+                            element.checked = true;
+                        }
+                    } else if (element.type === 'checkbox') {
+                        element.checked = savedValue === 'true';
+                    } else {
+                        element.value = savedValue;
+                    }
+                }
+            });
+        });
+
+        // Save data on input
+        formElements.forEach(element => {
+            element.addEventListener('change', () => {
+                if (element.type === 'radio') {
+                    localStorage.setItem(element.name, element.value);
+                } else if (element.type === 'checkbox') {
+                    localStorage.setItem(element.id, element.checked);
+                } else {
+                    localStorage.setItem(element.id || element.name, element.value);
+                }
+            });
+        });
+
+        // Print functionality
+        function printDocument() {
+            window.print();
+        }
+
+        // Add print button if needed
+        console.log('Workshop Activity Form Loaded - Auto-save enabled');
+    </script>
+</body>
+</html>
